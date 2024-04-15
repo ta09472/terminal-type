@@ -42,7 +42,13 @@ export default function Pro({
         }}
       />
       <div className="bg-black rounded-lg min-w-[45rem] flex gap-2 items-center mb-12">
-        <div className="pl-2 text-white">{">_"}</div>
+        <div
+          className={`pl-2 text-white ${getFontSize(
+            setting.fontSize
+          )} mb-[0.125rem]`}
+        >
+          {">_"}
+        </div>
         <Input
           className={`w-full p-2 bg-transparent text-white font-light ${getFontSize(
             setting.fontSize

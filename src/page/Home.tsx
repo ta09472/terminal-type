@@ -21,6 +21,7 @@ import {
 } from "../type/custom";
 import { getLocalStorage, setLocalStorage } from "../util/localStorage";
 import PatchNote from "../components/PatchNode";
+import sentence from "../contents/sentence";
 
 const defaultSetting: DefaultSetting = {
   theme: "minimal",
@@ -50,7 +51,9 @@ export default function Home() {
   const [textAlign, setTextAlign] = useState<TextAlign>(setting.textAlign);
   const [color, setColor] = useState<Color>(setting.color);
 
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(
+    Math.floor(Math.random() * sentence[lang].length - 1)
+  );
   const [input, setInput] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [patchNoteOpen, setPatchNoteOpen] = useState(false);
@@ -182,6 +185,7 @@ export default function Home() {
       </div>
       <Suspense fallback={<div>loading..</div>}>{renderTheme(theme)}</Suspense>
       <Modal
+        keyboard
         classNames={{
           header: "dark:bg-neutral-800 dark:text-neutral-200",
           content: "dark:bg-neutral-800 dark:text-neutral-200",
