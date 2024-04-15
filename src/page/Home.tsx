@@ -4,7 +4,15 @@ import Basic from "../components/Basic";
 import Pro from "../components/Pro";
 import Minimal from "../components/Minimal";
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
-import { Button, Divider, FloatButton, Modal, Popconfirm, Tooltip } from "antd";
+import {
+  Button,
+  ColorPicker,
+  Divider,
+  FloatButton,
+  Modal,
+  Popconfirm,
+  Tooltip,
+} from "antd";
 import ThemeRadio from "../components/ThemeRadio";
 import ColorRadio from "../components/ColorRadio";
 import TextAlignRadio from "../components/TextAlignRadio";
@@ -22,6 +30,7 @@ import {
 import { getLocalStorage, setLocalStorage } from "../util/localStorage";
 import PatchNote from "../components/PatchNode";
 import sentence from "../contents/sentence";
+import { twMerge } from "tailwind-merge";
 
 const defaultSetting: DefaultSetting = {
   theme: "minimal",
@@ -32,7 +41,7 @@ const defaultSetting: DefaultSetting = {
   textAlign: "center",
   color: {
     accuracy: "text-[#000000]",
-    normal: "text-[#cbd5e1]",
+    normal: "text-[#969da6]",
     inaccuracy: "text-[#446cef]",
   },
 };
@@ -151,7 +160,12 @@ export default function Home() {
   return (
     <div>
       <div className="fixed top-0 p-4 w-full bg-transparent flex items-center justify-between">
-        <div className=" font-bold text-2xl dark:text-neutral-50 ">
+        <div
+          className={twMerge(
+            " font-bold text-2xl dark:text-neutral-50 ",
+            color.inaccuracy
+          )}
+        >
           /terminal-type/
         </div>
         <div>
@@ -278,7 +292,7 @@ export default function Home() {
               />
             </div>
           </div>
-          {/* <Divider />
+          <Divider />
           <div className="flex w-full flex-col">
             <span className=" font-semibold text-lg">
               {isLocal ? "색상" : "Color"}
@@ -290,7 +304,7 @@ export default function Home() {
                 isLocal={isLocal}
               />
             </div>
-          </div> */}
+          </div>
           <Divider />
           <div className="flex w-full flex-col">
             <span className=" font-semibold text-lg">

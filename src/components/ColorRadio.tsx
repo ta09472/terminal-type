@@ -1,6 +1,12 @@
 import { ColorPicker, Space } from "antd";
-import { useState } from "react";
 import { Color } from "../type/custom";
+
+export function extractTextInBrackets(str: string) {
+  const regex = /\[([^\]]+)\]/g;
+  const matches = str.match(regex);
+
+  return (matches ? matches.map((match: any) => match.slice(1, -1)) : []).at(0);
+}
 
 interface Props {
   selectedColor: Color;
@@ -13,23 +19,11 @@ export default function ColorRadio({
   setSelectedColor,
   isLocal,
 }: Props) {
-  const [temp, setTemp] = useState<Color>(selectedColor);
-
   const onChange = (key: string, value: string) => {
-    setTemp((prev) => {
+    setSelectedColor((prev) => {
       return { ...prev, [key]: `text-[${value}]` };
     });
-    setSelectedColor(temp);
   };
-
-  function extractTextInBrackets(str: string) {
-    const regex = /\[([^\]]+)\]/g;
-    const matches = str.match(regex);
-
-    return (matches ? matches.map((match: any) => match.slice(1, -1)) : []).at(
-      0
-    );
-  }
 
   return (
     <div className="flex w-full justify-evenly">
@@ -37,7 +31,7 @@ export default function ColorRadio({
         {isLocal ? "기본 문자" : "Normal"}
         <ColorPicker
           format="hex"
-          defaultValue={extractTextInBrackets(selectedColor.normal)}
+          value={extractTextInBrackets(selectedColor.normal)}
           onChange={(_, hex) => onChange("normal", hex)}
         />
       </Space>
@@ -45,7 +39,7 @@ export default function ColorRadio({
         {isLocal ? "정확한 문자" : "Accuracy"}
         <ColorPicker
           format="hex"
-          defaultValue={extractTextInBrackets(selectedColor.accuracy)}
+          value={extractTextInBrackets(selectedColor.accuracy)}
           onChange={(_, hex) => onChange("accuracy", hex)}
         />
       </Space>
@@ -53,8 +47,8 @@ export default function ColorRadio({
         {isLocal ? "부정확한 문자" : "Inaccuracy"}
         <ColorPicker
           format="hex"
-          defaultValue={extractTextInBrackets(selectedColor.inaccuracy)}
-          onChange={(_, hex) => onChange("Inaccuracy", hex)}
+          value={extractTextInBrackets(selectedColor.inaccuracy)}
+          onChange={(_, hex) => onChange("inaccuracy", hex)}
         />
       </Space>
     </div>

@@ -4,6 +4,8 @@ import Input from "./Input";
 import { DefaultSetting } from "../type/custom";
 import { getAuthorFontSize, getFontSize } from "../util/font";
 import NewAccuracy from "./NewAccuracy";
+import { twMerge } from "tailwind-merge";
+import { extractTextInBrackets } from "./ColorRadio";
 
 interface Props {
   index: number;
@@ -80,9 +82,13 @@ export default function Basic({
               <div className="flex items-center dark:text-neutral-400 ">
                 <div>
                   <span
-                    className={`dark:text-neutral-50 ${getFontSize(
-                      setting.fontSize
-                    )}`}
+                    className={twMerge(
+                      "dark:text-neutral-50",
+                      getFontSize(setting.fontSize)
+                    )}
+                    style={{
+                      color: extractTextInBrackets(setting.color.normal),
+                    }}
                   >
                     {setting.language}@{currentSentence?.author}: ~$
                   </span>
@@ -93,15 +99,16 @@ export default function Basic({
                     <NewAccuracy
                       language={setting.language}
                       color={{
-                        accuracy: `text-black dark:text-neutral-50 ${getFontSize(
-                          setting.fontSize
-                        )}`,
-                        normal: `text-gray-400 ${getFontSize(
-                          setting.fontSize
-                        )}`,
-                        inaccuracy: `text-red-500 ${getFontSize(
-                          setting.fontSize
-                        )}`,
+                        accuracy: twMerge(
+                          setting.fontSize,
+                          "dark:text-neutral-50 ",
+                          setting.color.accuracy
+                        ),
+                        normal: twMerge(setting.fontSize, setting.color.normal),
+                        inaccuracy: twMerge(
+                          setting.fontSize,
+                          setting.color.inaccuracy
+                        ),
                       }}
                       target={sentence[setting.language].at(index)?.content}
                       input={input}

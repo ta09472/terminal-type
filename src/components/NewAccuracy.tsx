@@ -1,4 +1,5 @@
 import { Language } from "../type/custom";
+import { extractTextInBrackets } from "./ColorRadio";
 
 interface Props {
   language: Language;
@@ -25,7 +26,6 @@ const isHangul = (char: string) => {
 };
 
 export default function Accuracy({
-  language,
   target,
   input,
   color = {
@@ -41,7 +41,11 @@ export default function Accuracy({
       {target.split("").map((char, index) => {
         if (index >= input.length) {
           return (
-            <span key={index} className={color.normal}>
+            <span
+              key={index}
+              className={color.normal}
+              style={{ color: extractTextInBrackets(color.normal) }}
+            >
               {char}
             </span>
           );
@@ -57,19 +61,26 @@ export default function Accuracy({
 
         // Default color set to normal, adjusted below
         let className = color.normal;
+        let textColor = extractTextInBrackets(color.normal);
 
         if (inputChar === " ") {
           if (char !== inputChar) {
             return (
-              <span key={index} className={color.inaccuracy}>
+              <span
+                key={index}
+                className={color.inaccuracy}
+                style={{ color: extractTextInBrackets(color.inaccuracy) }}
+              >
                 _
               </span>
             ); // Incorrect space input shown as "_"
           }
           className = color.normal; // Correct space input keeps the normal color
+          textColor = extractTextInBrackets(color.normal);
         } else {
           // Apply accuracy color to the currently being typed character
           if (index === input.length - 1) {
+            textColor = extractTextInBrackets(color.accuracy);
             className = color.accuracy;
           } else {
             // For previously entered characters, check for full match or Hangul component match
@@ -81,15 +92,17 @@ export default function Accuracy({
                 targetIndices.중성 === inputIndices.중성 &&
                 targetIndices.종성 === inputIndices.종성)
             ) {
+              textColor = extractTextInBrackets(color.accuracy);
               className = color.accuracy;
             } else {
+              textColor = extractTextInBrackets(color.inaccuracy);
               className = color.inaccuracy;
             }
           }
         }
 
         return (
-          <span key={index} className={className}>
+          <span key={index} className={className} style={{ color: textColor }}>
             {inputChar}
           </span>
         );

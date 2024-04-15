@@ -3,6 +3,7 @@ import Input from "./Input";
 import { DefaultSetting } from "../type/custom";
 import { getAuthorFontSize, getFontSize } from "../util/font";
 import NewAccuracy from "./NewAccuracy";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   index: number;
@@ -19,6 +20,7 @@ export default function Minimal({
   setInput,
   setting,
 }: Props) {
+  const fontSize = getFontSize(setting.fontSize);
   return (
     <div className="flex flex-col justify-center items-center w-screen h-screen gap-4 dark:bg-neutral-800">
       <div className="flex flex-col gap-4 w-min-[40rem]">
@@ -38,11 +40,13 @@ export default function Minimal({
             <NewAccuracy
               language={setting.language}
               color={{
-                accuracy: `text-black dark:text-neutral-50 ${getFontSize(
-                  setting.fontSize
-                )}`,
-                normal: `text-neutral-400 ${getFontSize(setting.fontSize)}`,
-                inaccuracy: `text-red-500 ${getFontSize(setting.fontSize)}`,
+                accuracy: twMerge(
+                  fontSize,
+                  "dark:text-neutral-50 ",
+                  setting.color.accuracy
+                ),
+                normal: twMerge(fontSize, setting.color.normal),
+                inaccuracy: twMerge(fontSize, setting.color.inaccuracy),
               }}
               target={sentence[setting.language].at(index)?.content}
               input={input}
