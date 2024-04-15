@@ -1,4 +1,3 @@
-import React from "react";
 import { Language } from "../type/custom";
 
 interface Props {
@@ -49,10 +48,12 @@ export default function Accuracy({
         }
 
         const inputChar = input[index];
-        const targetIndices = isHangul(char) ? getKoreanCharIndices(char) : {};
+        const targetIndices = isHangul(char)
+          ? getKoreanCharIndices(char)
+          : { 초성: "", 중성: "", 종성: "" };
         const inputIndices = isHangul(inputChar)
           ? getKoreanCharIndices(inputChar)
-          : {};
+          : { 초성: "", 중성: "", 종성: "" };
 
         // Default color set to normal, adjusted below
         let className = color.normal;
