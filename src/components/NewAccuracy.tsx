@@ -1,5 +1,5 @@
 import { Language } from "../type/custom";
-import { extractTextInBrackets } from "./ColorRadio";
+import { extractTextInBrackets } from "../util/color";
 
 interface Props {
   language: Language;

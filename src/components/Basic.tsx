@@ -5,7 +5,7 @@ import { DefaultSetting } from "../type/custom";
 import { getAuthorFontSize, getFontSize } from "../util/font";
 import NewAccuracy from "./NewAccuracy";
 import { twMerge } from "tailwind-merge";
-import { extractTextInBrackets } from "./ColorRadio";
+import { extractTextInBrackets } from "../util/color";
 
 interface Props {
   index: number;

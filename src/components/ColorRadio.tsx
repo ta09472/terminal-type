@@ -1,16 +1,10 @@
 import { ColorPicker, Space } from "antd";
 import { Color } from "../type/custom";
-
-export function extractTextInBrackets(str: string) {
-  const regex = /\[([^\]]+)\]/g;
-  const matches = str.match(regex);
-
-  return (matches ? matches.map((match: any) => match.slice(1, -1)) : []).at(0);
-}
+import { extractTextInBrackets } from "../util/color";
 
 interface Props {
   selectedColor: Color;
-  setSelectedColor: (v: Color) => void;
+  setSelectedColor: React.Dispatch<React.SetStateAction<Color>>;
   isLocal: boolean;
 }
 
@@ -20,8 +14,8 @@ export default function ColorRadio({
   isLocal,
 }: Props) {
   const onChange = (key: string, value: string) => {
-    setSelectedColor((prev) => {
-      return { ...prev, [key]: `text-[${value}]` };
+    setSelectedColor((prev: Color) => {
+      return { ...prev, [key]: `text-[${value}]` } as Color;
     });
   };
 

@@ -160,12 +160,7 @@ export default function Home() {
   return (
     <div>
       <div className="fixed top-0 p-4 w-full bg-transparent flex items-center justify-between">
-        <div
-          className={twMerge(
-            " font-bold text-2xl dark:text-neutral-50 ",
-            color.inaccuracy
-          )}
-        >
+        <div className={twMerge(" font-bold text-2xl dark:text-neutral-50 ")}>
           /terminal-type/
         </div>
         <div>
