@@ -100,13 +100,16 @@ export default function Basic({
                       language={setting.language}
                       color={{
                         accuracy: twMerge(
-                          setting.fontSize,
+                          getFontSize(setting.fontSize),
                           "dark:text-neutral-50 ",
                           setting.color.accuracy
                         ),
-                        normal: twMerge(setting.fontSize, setting.color.normal),
+                        normal: twMerge(
+                          getFontSize(setting.fontSize),
+                          setting.color.normal
+                        ),
                         inaccuracy: twMerge(
-                          setting.fontSize,
+                          getFontSize(setting.fontSize),
                           setting.color.inaccuracy
                         ),
                       }}
