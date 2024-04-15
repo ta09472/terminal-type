@@ -194,7 +194,7 @@ export default function Home() {
         footer={
           <div className="flex items-center justify-between">
             <Button
-              className="p-0 m-0"
+              className={`p-0 m-0`}
               type="link"
               onClick={() => {
                 setSystemLang((prv) => {
@@ -224,6 +224,9 @@ export default function Home() {
               </Button>
               <Popconfirm
                 title={isLocal ? "설정 저장" : "Save Settings"}
+                okButtonProps={{
+                  className: "shadow-none bg-neutral-900",
+                }}
                 description={
                   isLocal
                     ? "이 설정을 유지할까요?"
@@ -233,7 +236,9 @@ export default function Home() {
                 okText="Yes"
                 cancelText="No"
               >
-                <Button type="primary">{isLocal ? "저장" : "Save"}</Button>
+                <Button type="primary" className="bg-neutral-900 shadow-none">
+                  {isLocal ? "저장" : "Save"}
+                </Button>
               </Popconfirm>
             </div>
           </div>

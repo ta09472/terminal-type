@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
 import sentence from "../contents/sentence";
+import { Language } from "../type/custom";
 
 interface Props {
   value: string;
   index: number;
-  lang: "english" | "korean";
+  lang: Language;
   setInput: (v: string) => void;
   setIndex: any;
   className?: string;
@@ -42,11 +43,12 @@ export default function Input({
       ref={inputRef}
       value={value}
       onChange={({ currentTarget }) => {
-        // if (value.length === 0) {
-        //   if (currentTarget.value === " ") {
-        //     return;
-        //   }
-        // }
+        if (value.length >= sentence[lang].at(index)!.content.length) return;
+        // 공백만 있는 입력을 무시합니다.
+        const trimmedValue = currentTarget.value.trim();
+        if (trimmedValue === "" && currentTarget.value.includes(" ")) {
+          return;
+        }
         setInput(currentTarget.value);
       }}
       onKeyDown={({ code }) => {
@@ -54,9 +56,8 @@ export default function Input({
           setInput("");
         }
         if ((sentence[lang].at(index)?.content.length ?? 0) <= value.length) {
-          // if (code === "Enter" || code === "Space") {
-          if (code === "Enter") {
-            setInput("");
+          if (code === "Enter" || code === "Space") {
+            setInput(""); // 입력 필드를 비웁니다.
             setIndex((prev: number) => {
               if (prev === sentence[lang].length - 1) {
                 return 0;
