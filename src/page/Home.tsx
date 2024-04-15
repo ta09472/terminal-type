@@ -330,7 +330,7 @@ export default function Home() {
       </Modal>
       <FloatButton.Group
         trigger="click"
-        type="primary"
+        type={_theme === "light" ? "default" : "primary"}
         style={{ right: 24 }}
         icon={
           <svg
