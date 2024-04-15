@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import sentence from "../contents/sentence";
-import { Language } from "../type/custom";
 
 interface Props {
   value: string;
   index: number;
-  lang: Language;
+  lang: "english" | "korean";
   setInput: (v: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setIndex: any;
   className?: string;
 }
@@ -43,8 +43,9 @@ export default function Input({
       ref={inputRef}
       value={value}
       onChange={({ currentTarget }) => {
-        if (value.length >= sentence[lang].at(index)!.content.length) return;
         // 공백만 있는 입력을 무시합니다.
+        if (value.length >= sentence[lang].at(index)!.content.length + 1)
+          return;
         const trimmedValue = currentTarget.value.trim();
         if (trimmedValue === "" && currentTarget.value.includes(" ")) {
           return;

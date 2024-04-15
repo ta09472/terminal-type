@@ -1,16 +1,15 @@
-"use client";
-
 import { useRef, useEffect } from "react";
 import sentence from "../contents/sentence";
-import Accuracy from "./Accuracy";
 import Input from "./Input";
 import { DefaultSetting } from "../type/custom";
 import { getAuthorFontSize, getFontSize } from "../util/font";
+import NewAccuracy from "./NewAccuracy";
 
 interface Props {
   index: number;
   input: string;
   setInput: (v: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setIndex: any;
   setting: DefaultSetting;
 }
@@ -91,7 +90,8 @@ export default function Basic({
 
                 <div className="relative">
                   <div className="flex-none">
-                    <Accuracy
+                    <NewAccuracy
+                      language={setting.language}
                       color={{
                         accuracy: `text-black dark:text-neutral-50 ${getFontSize(
                           setting.fontSize

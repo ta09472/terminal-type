@@ -1,8 +1,8 @@
 import sentence from "../contents/sentence";
-import Accuracy from "./Accuracy";
 import Input from "./Input";
 import { DefaultSetting } from "../type/custom";
 import { getAuthorFontSize, getFontSize } from "../util/font";
+import NewAccuracy from "./NewAccuracy";
 
 interface Props {
   index: number;
@@ -35,7 +35,8 @@ export default function Minimal({
               setting.fontSize
             )}`}
           >
-            <Accuracy
+            <NewAccuracy
+              language={setting.language}
               color={{
                 accuracy: `text-black dark:text-neutral-50 ${getFontSize(
                   setting.fontSize
