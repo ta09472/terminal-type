@@ -30,7 +30,11 @@ export default function Minimal({
           {sentence[setting.language].at(index - 1)?.content}
         </div>
         <div className="relative ">
-          <div className="flex-none text-lg font-semibold">
+          <div
+            className={`flex-none font-semibold  ${getFontSize(
+              setting.fontSize
+            )}`}
+          >
             <Accuracy
               color={{
                 accuracy: `text-black dark:text-neutral-50 ${getFontSize(
