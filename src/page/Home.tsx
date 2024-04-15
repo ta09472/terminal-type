@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Suspense, useEffect, useState } from "react";
 import Basic from "../components/Basic";
 import Pro from "../components/Pro";
