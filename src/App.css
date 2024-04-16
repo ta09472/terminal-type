@@ -7,3 +7,25 @@ input:focus {
   border: none; /* 필요에 따라 기본 테두리를 재정의합니다. */
   box-shadow: none; /* 포커스 시 적용되는 글로우 효과나 그림자를 제거합니다. */
 }
+
+/* .filebox input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+} */
+
+.filebox label {
+}
+
+.filebox .upload-name {
+  display: inline-block;
+  height: 40px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 1px solid red;
+  width: 78%;
+  color: #999999;
+}
