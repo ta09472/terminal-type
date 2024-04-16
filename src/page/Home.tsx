@@ -37,7 +37,7 @@ const defaultSetting: DefaultSetting = {
   color: {
     accuracy: "text-[#000000]",
     normal: "text-[#969da6]",
-    inaccuracy: "text-[#446cef]",
+    inaccuracy: "text-[#fb2424]",
   },
 };
 
