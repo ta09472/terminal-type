@@ -1,3 +1,4 @@
+/* eslint-disable prefer-spread */
 import { useEffect, DependencyList } from "react";
 
 export function useDebounceEffect(
@@ -7,11 +8,11 @@ export function useDebounceEffect(
 ) {
   useEffect(() => {
     const t = setTimeout(() => {
-      fn.apply(undefined, deps);
+      return fn.apply(undefined, deps as []);
     }, waitTime);
 
     return () => {
       clearTimeout(t);
     };
-  }, deps);
+  }, deps as []);
 }
