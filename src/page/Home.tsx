@@ -160,8 +160,6 @@ export default function Home() {
     }
   }, []);
 
-  console.log(createBackgroundImageStyle(background?.crop, background?.src));
-
   return (
     <div
       style={{
@@ -454,7 +452,7 @@ export default function Home() {
         }
       >
         <FloatButton
-          tooltip={"패치내역"}
+          tooltip={isLocal ? "패치노트" : "Patch Note"}
           onClick={() => setPatchNoteOpen(true)}
         />
         {/* <Tooltip title="Copied!" trigger="click">
@@ -480,6 +478,7 @@ export default function Home() {
         </Tooltip> */}
       </FloatButton.Group>
       <PatchNote
+        isLocal={isLocal}
         open={patchNoteOpen}
         onCancel={() => setPatchNoteOpen(false)}
       />
