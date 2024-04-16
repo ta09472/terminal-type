@@ -369,7 +369,7 @@ export default function Home() {
                   title={
                     systemLang === "english"
                       ? "Backgrounds are not yet saved. Dark mode does not allow you to set a background image. We recommend using images with a resolution of 1920 x 1080."
-                      : "배경화면은 아직 저장되지 않습니다. 다크모드는 배경화면을 지정할 수 없습니다. 1920 x 1080 크기의 이미지를 사용하시기를 권합니다."
+                      : "배경화면은 아직 저장되지 않습니다. 다크모드는 배경화면을 지정할 수 없습니다. 1920 x 1080 크기 이상의 이미지를 사용하시기를 권합니다."
                   }
                 >
                   <svg

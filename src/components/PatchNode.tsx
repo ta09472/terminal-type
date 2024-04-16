@@ -16,7 +16,7 @@ export default function PatchNote({ open, onCancel, isLocal }: Props) {
               <div className="text-base flex flex-col gap-4">
                 <div>
                   - (실험적 기능) 배경화면에 이미지를 삽입할 수 있게 되었습니다.
-                  1920 x 1080 크기의 이미지를 사용하기를 권장합니다.
+                  1920 x 1080 크기 이상의 이미지를 사용하기를 권장합니다.
                 </div>
               </div>
             </div>
