@@ -23,6 +23,11 @@ import { getLocalStorage, setLocalStorage } from "../util/localStorage";
 import PatchNote from "../components/PatchNode";
 import sentence from "../contents/sentence";
 import { twMerge } from "tailwind-merge";
+import { extractTextInBrackets } from "../util/color";
+import BackgroundCropper from "../components/Cropper";
+import CropDemo from "../components/Cropper";
+import { PixelCrop } from "react-image-crop";
+import { createBackgroundImageStyle } from "../util/crop";
 
 const defaultSetting: DefaultSetting = {
   theme: "minimal",
@@ -36,6 +41,7 @@ const defaultSetting: DefaultSetting = {
     normal: "text-[#969da6]",
     inaccuracy: "text-[#446cef]",
   },
+  background: "#ffffff",
 };
 
 export default function Home() {
@@ -51,6 +57,10 @@ export default function Home() {
   const [fontSize, setFontSize] = useState<FontSize>(setting.fontSize);
   const [textAlign, setTextAlign] = useState<TextAlign>(setting.textAlign);
   const [color, setColor] = useState<Color>(setting.color);
+  const [background, setBackground] = useState<{
+    crop: PixelCrop;
+    src: string;
+  }>();
 
   const [index, setIndex] = useState(
     Math.floor(Math.random() * sentence[lang].length - 1)
@@ -90,6 +100,7 @@ export default function Home() {
     systemLanguage: systemLang,
     fontSize,
     textAlign,
+    background,
   };
 
   const renderTheme = (theme: Theme) => {
@@ -149,8 +160,15 @@ export default function Home() {
     }
   }, []);
 
+  console.log(createBackgroundImageStyle(background?.crop, background?.src));
+
   return (
-    <div>
+    <div
+      style={{
+        ...createBackgroundImageStyle(background?.crop, background?.src),
+      }}
+      className=" flex justify-center items-center "
+    >
       <div className="fixed top-0 p-4 w-full bg-transparent flex items-center justify-between">
         <div className={twMerge(" font-bold text-2xl dark:text-neutral-50 ")}>
           /terminal-type/
@@ -316,6 +334,15 @@ export default function Home() {
                 setSelectedColor={setColor}
                 isLocal={isLocal}
               />
+            </div>
+          </div>
+          <Divider />
+          <div className="flex w-full flex-col ">
+            <span className=" font-semibold text-lg">
+              {isLocal ? "배경" : "Background"}
+            </span>
+            <div className="flex flex-col items-center w-full justify-between max-h-[18.5rem] overflow-scroll">
+              <CropDemo setBackground={setBackground} />
             </div>
           </div>
           <Divider />

@@ -17,4 +17,5 @@ export type DefaultSetting = {
   fontSize: FontSize;
   color: Color;
   systemLanguage: Language;
+  background: string;
 };
