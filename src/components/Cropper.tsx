@@ -11,7 +11,8 @@ import { canvasPreview } from "../util/crop";
 import { useDebounceEffect } from "../hooks/useDebounce";
 
 import "react-image-crop/dist/ReactCrop.css";
-import { Button, Upload } from "antd";
+import { Button, Spin, Upload } from "antd";
+import { Mode } from "../type/custom";
 
 // This is to demonstate how to make and center a % aspect crop
 // which is a bit trickier so we use some helper functions.
@@ -45,9 +46,11 @@ interface Props {
       | undefined
     >
   >;
+  setTheme: (v: Mode) => void;
 }
 
-export default function Cropper({ setBackground }: Props) {
+export default function Cropper({ setBackground, setTheme }: Props) {
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [imgSrc, setImgSrc] = useState("");
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -60,14 +63,19 @@ export default function Cropper({ setBackground }: Props) {
   const [rotate, setRotate] = useState(0);
   const [aspect, setAspect] = useState<number | undefined>(16 / 9);
 
-  function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
+  async function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
+    setLoading(true); // 파일 선택 시 로딩 시작
+
     if (e.target.files && e.target.files.length > 0) {
-      setCrop(undefined); // Makes crop preview update between images.
+      setCrop(undefined); // 이미지 변경 시 크롭 상태 초기화
       const reader = new FileReader();
-      reader.addEventListener("load", () =>
-        setImgSrc(reader.result?.toString() || "")
-      );
+      reader.addEventListener("load", () => {
+        setImgSrc(reader.result?.toString() || "");
+        setLoading(false); // 파일 로딩 완료 후 로딩 상태 종료
+      });
       reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setLoading(false); // 파일이 선택되지 않았을 경우 바로 로딩 상태 종료
     }
   }
 
@@ -166,6 +174,8 @@ export default function Cropper({ setBackground }: Props) {
   //     }
   //   }
 
+  if (loading) return <Spin fullscreen />;
+
   return (
     <div className="App">
       <div className="filebox flex items-center justify-between w-full">
@@ -256,7 +266,6 @@ export default function Cropper({ setBackground }: Props) {
           crop={crop}
           onChange={(_, percentCrop) => setCrop(percentCrop)}
           onComplete={(c) => {
-            // setCompletedCrop(c);
             setBackground({ crop: c, src: imgSrc });
           }}
           aspect={aspect}

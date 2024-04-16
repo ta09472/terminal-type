@@ -368,8 +368,8 @@ export default function Home() {
                 <Tooltip
                   title={
                     systemLang === "english"
-                      ? "Backgrounds are not yet saved. We recommend using images with a resolution of 1920 x 1080."
-                      : "배경화면은 아직 저장되지 않습니다. 1920 x 1080 크기의 이미지를 사용하시기를 권합니다."
+                      ? "Backgrounds are not yet saved. Dark mode does not allow you to set a background image. We recommend using images with a resolution of 1920 x 1080."
+                      : "배경화면은 아직 저장되지 않습니다. 다크모드는 배경화면을 지정할 수 없습니다. 1920 x 1080 크기의 이미지를 사용하시기를 권합니다."
                   }
                 >
                   <svg
@@ -390,7 +390,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex flex-col items-center w-full justify-between max-h-[18.5rem] overflow-scroll">
-              <Cropper setBackground={setBackground} />
+              <Cropper setBackground={setBackground} setTheme={_setTheme} />
             </div>
           </div>
           <Divider />
