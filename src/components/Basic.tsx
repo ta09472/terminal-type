@@ -48,7 +48,7 @@ export default function Basic({
 
   return (
     <div className="h-screen w-screen flex items-center justify-center dark:bg-neutral-800">
-      <div className=" rounded-lg bg-gray-50 min-w-[50rem] h-[20rem] shadow-lg dark:bg-black">
+      <div className=" rounded-lg bg-gray-50 min-w-[10rem] lg:min-w-[50rem] h-[20rem] shadow-lg dark:bg-black">
         <div className=" flex justify-between items-center bg-gray-100 border-b rounded-t-lg font-semibold text-gray-600 p-2 dark:bg-neutral-300 dark:text-neutral-700 ">
           <div className="flex gap-2">
             <div className="bg-gray-300 w-3 h-3 rounded-sm dark:bg-neutral-400 "></div>
@@ -78,7 +78,7 @@ export default function Basic({
         </div>
         <div className="p-1 px-2 flex flex-col w-full ">
           <div className="text-lg font-light">
-            <div className="flex flex-nowrap text-nowrap whitespace-nowrap relative">
+            <div className="flex lg:flex-nowrap lg:text-nowrap lg:whitespace-nowrap relative flex-wrap text-wrap whitespace-wrap">
               <div className="flex items-center dark:text-neutral-400 ">
                 <div>
                   <span
@@ -95,7 +95,7 @@ export default function Basic({
                 </div>
 
                 <div className="relative">
-                  <div className="flex-none">
+                  <div className="flex-none ">
                     <NewAccuracy
                       language={setting.language}
                       color={{
