@@ -5,6 +5,7 @@ import sentence from "../contents/sentence";
 import Input from "./Input";
 import { DefaultSetting, Language } from "../type/custom";
 import { getAuthorFontSize, getFontSize } from "../util/font";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   index: number;
@@ -34,11 +35,18 @@ export default function Pro({
         target={sentence[setting.language].at(index)?.content}
         input={input}
         color={{
-          accuracy: `text-black dark:text-neutral-50 ${getFontSize(
-            setting.fontSize
-          )}`,
-          normal: `text-neutral-400 ${getFontSize(setting.fontSize)}`,
-          inaccuracy: `text-red-500 ${getFontSize(setting.fontSize)}`,
+          accuracy: twMerge(
+            setting.fontSize,
+            "dark:text-neutral-50",
+            setting.color.accuracy
+          ),
+          normal: twMerge(
+            setting.fontSize,
+            // "text-neutral-400",
+            setting.color.normal
+          ),
+
+          inaccuracy: twMerge(setting.fontSize, setting.color.inaccuracy),
         }}
       />
       <div className="bg-black rounded-lg min-w-[22rem] lg:min-w-[45rem] flex gap-2 items-center mb-12">
