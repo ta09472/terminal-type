@@ -6,6 +6,7 @@ import Input from "./Input";
 import { DefaultSetting, Language } from "../type/custom";
 import { getAuthorFontSize, getFontSize } from "../util/font";
 import { twMerge } from "tailwind-merge";
+import { extractTextInBrackets } from "../util/color";
 
 interface Props {
   index: number;
@@ -25,9 +26,12 @@ export default function Pro({
   return (
     <div className="flex flex-col justify-center items-center w-screen h-screen gap-4  dark:bg-neutral-800">
       <div
-        className={` text-neutral-800 dark:text-neutral-200 ${getAuthorFontSize(
+        className={` dark:text-neutral-200 ${getAuthorFontSize(
           setting.fontSize
         )}`}
+        style={{
+          color: `${extractTextInBrackets(setting.color.accuracy)}`,
+        }}
       >
         - {sentence[setting.language].at(index)?.author} -
       </div>
