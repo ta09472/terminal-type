@@ -12,7 +12,17 @@ export default function PatchNote({ open, onCancel, isLocal }: Props) {
         <div className="text-lg flex-col text-neutral-800">
           <div className=" overflow-auto px-9 flex-col gap-4">
             <div className="mb-4">
-              <div className="pb-4 font-semibold">0.4 패치내역</div>
+              <div className="pb-4 font-semibold">0.41 패치내역</div>
+              <div className="text-base flex flex-col gap-4">
+                <div>
+                  - 프로 모드에서도 이제 사용자 설정 텍스트 색상이 적용됩니다.
+                  <br />- 주어진 문장보다 입력한 글자수가 클 경우 더이상 문자가
+                  입력되지 않던 문제가 해결되었습니다.
+                </div>
+              </div>
+            </div>
+            <div className="mb-4">
+              <div className="pb-4">0.4 패치내역</div>
               <div className="text-base flex flex-col gap-4">
                 <div>
                   - (실험적 기능) 배경화면에 이미지를 삽입할 수 있게 되었습니다.
@@ -43,6 +53,16 @@ export default function PatchNote({ open, onCancel, isLocal }: Props) {
       ) : (
         <div className="text-lg flex-col text-neutral-800">
           <div className=" overflow-auto px-9 flex-col gap-4">
+            <div className="pb-4 font-semibold">0.41 Notes</div>
+            <div className="text-base flex flex-col gap-4">
+              <div>
+                In pro mode, user-defined text color is now applied.
+                <br />- The issue where no more characters were being input if
+                the number of characters entered exceeded the given sentence has
+                been resolved.
+              </div>
+            </div>
+
             <div className="mb-4">
               <div className="pb-4 font-semibold">Patch 0.4 Notes</div>
               <div className="text-base flex flex-col gap-4">
