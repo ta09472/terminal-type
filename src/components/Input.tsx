@@ -44,8 +44,14 @@ export default function Input({
       value={value}
       onChange={({ currentTarget }) => {
         // 공백만 있는 입력을 무시합니다.
-        if (value.length >= sentence[lang].at(index)!.content.length + 1)
+
+        if (value.length >= sentence[lang].at(index)!.content.length) {
+          if (currentTarget.value.length < value.length) {
+            setInput(currentTarget.value);
+          }
           return;
+        }
+
         const trimmedValue = currentTarget.value.trim();
         if (trimmedValue === "" && currentTarget.value.includes(" ")) {
           return;
