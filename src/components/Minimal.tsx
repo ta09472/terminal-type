@@ -4,6 +4,7 @@ import { DefaultSetting } from "../type/custom";
 import { getAuthorFontSize, getFontSize } from "../util/font";
 import NewAccuracy from "./NewAccuracy";
 import { twMerge } from "tailwind-merge";
+import Test from "./Test";
 
 interface Props {
   index: number;
@@ -37,20 +38,36 @@ export default function Minimal({
               setting.fontSize
             )}`}
           >
-            <NewAccuracy
-              language={setting.language}
-              color={{
-                accuracy: twMerge(
-                  fontSize,
-                  "dark:text-neutral-50 ",
-                  setting.color.accuracy
-                ),
-                normal: twMerge(fontSize, setting.color.normal),
-                inaccuracy: twMerge(fontSize, setting.color.inaccuracy),
-              }}
-              target={sentence[setting.language].at(index)?.content}
-              input={input}
-            />
+            {setting.language === "korean" ? (
+              <Test
+                color={{
+                  accuracy: twMerge(
+                    fontSize,
+                    "dark:text-neutral-50 ",
+                    setting.color.accuracy
+                  ),
+                  normal: twMerge(fontSize, setting.color.normal),
+                  inaccuracy: twMerge(fontSize, setting.color.inaccuracy),
+                }}
+                target={sentence[setting.language].at(index)?.content}
+                input={input}
+              />
+            ) : (
+              <NewAccuracy
+                language="english"
+                color={{
+                  accuracy: twMerge(
+                    fontSize,
+                    "dark:text-neutral-50 ",
+                    setting.color.accuracy
+                  ),
+                  normal: twMerge(fontSize, setting.color.normal),
+                  inaccuracy: twMerge(fontSize, setting.color.inaccuracy),
+                }}
+                target={sentence[setting.language].at(index)?.content}
+                input={input}
+              />
+            )}
           </div>
           <Input
             className={`flex-1 bg-transparent font-semibold text-transparent absolute top-0 left-0 w-full caret-neutral-400 ${getFontSize(
