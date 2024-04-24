@@ -6,6 +6,7 @@ import { getAuthorFontSize, getFontSize } from "../util/font";
 import NewAccuracy from "./NewAccuracy";
 import { twMerge } from "tailwind-merge";
 import { extractTextInBrackets } from "../util/color";
+import Test from "./Test";
 
 interface Props {
   index: number;
@@ -96,26 +97,48 @@ export default function Basic({
 
                 <div className="relative">
                   <div className="flex-none ">
-                    <NewAccuracy
-                      language={setting.language}
-                      color={{
-                        accuracy: twMerge(
-                          getFontSize(setting.fontSize),
-                          "dark:text-neutral-50 ",
-                          setting.color.accuracy
-                        ),
-                        normal: twMerge(
-                          getFontSize(setting.fontSize),
-                          setting.color.normal
-                        ),
-                        inaccuracy: twMerge(
-                          getFontSize(setting.fontSize),
-                          setting.color.inaccuracy
-                        ),
-                      }}
-                      target={sentence[setting.language].at(index)?.content}
-                      input={input}
-                    />
+                    {setting.language === "korean" ? (
+                      <Test
+                        color={{
+                          accuracy: twMerge(
+                            setting.fontSize,
+                            "dark:text-neutral-50 ",
+                            setting.color.accuracy
+                          ),
+                          normal: twMerge(
+                            setting.fontSize,
+                            setting.color.normal
+                          ),
+                          inaccuracy: twMerge(
+                            setting.fontSize,
+                            setting.color.inaccuracy
+                          ),
+                        }}
+                        target={sentence[setting.language].at(index)?.content}
+                        input={input}
+                      />
+                    ) : (
+                      <NewAccuracy
+                        language={setting.language}
+                        color={{
+                          accuracy: twMerge(
+                            getFontSize(setting.fontSize),
+                            "dark:text-neutral-50 ",
+                            setting.color.accuracy
+                          ),
+                          normal: twMerge(
+                            getFontSize(setting.fontSize),
+                            setting.color.normal
+                          ),
+                          inaccuracy: twMerge(
+                            getFontSize(setting.fontSize),
+                            setting.color.inaccuracy
+                          ),
+                        }}
+                        target={sentence[setting.language].at(index)?.content}
+                        input={input}
+                      />
+                    )}
                   </div>
                   <Input
                     value={input}

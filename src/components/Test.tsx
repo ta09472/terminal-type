@@ -1,9 +1,9 @@
-import { extractTextInBrackets } from "../util/color";
 import {
   checkCombinedFinal,
   checkCombinedVowel,
   toKorChars,
 } from "../util/typing";
+import { extractTextInBrackets } from "../util/color";
 
 interface Props {
   target: string | undefined;
@@ -24,8 +24,6 @@ export default function Accuracy({
     inaccuracy: "text-red-500",
   },
 }: Props) {
-  const { normal, accuracy, inaccuracy } = color;
-
   if (!target) return null;
 
   const targetDecomposed = toKorChars(target).map((char) => ({ ...char }));
@@ -114,65 +112,35 @@ export default function Accuracy({
   return (
     <div>
       {target.split("").map((char, index) => {
-        if (index < input.length) {
-          // 사용자가 입력한 문자열의 인덱스가 현재 인덱스보다 큰 경우
-          if (index < input.length - 1) {
-            // 입력 중인 인덱스보다 이전이며 정답과 다른 문자열은 빨간색으로 표현
-            const className = char === input[index] ? accuracy : inaccuracy;
-            const textColor = extractTextInBrackets(calculateColor(index));
-
-            if (char === " " && char !== input[index])
-              return (
-                <span
-                  key={index}
-                  className={inaccuracy}
-                  style={{ color: textColor }}
-                >
-                  _
-                </span>
-              );
+        const textColor = extractTextInBrackets(calculateColor(index));
+        if (index >= input.length) {
+          return (
+            <span
+              key={index}
+              className={color.normal}
+              style={{ color: extractTextInBrackets(color.normal) }}
+            >
+              {char}
+            </span>
+          );
+        }
+        if (input[index] === " ") {
+          if (char !== input[index]) {
             return (
               <span
                 key={index}
-                className={className}
-                style={{ color: textColor }}
+                className={color.inaccuracy}
+                style={{ color: extractTextInBrackets(color.inaccuracy) }}
               >
-                {char}
+                _
               </span>
-            );
-          } else {
-            // 사용자가 입력 중인 인덱스의 문자열은 기본색상으로 표현
-
-            if (char === input[index])
-              return (
-                <span
-                  key={index}
-                  className={accuracy}
-                  style={{ color: extractTextInBrackets(accuracy) }}
-                >
-                  {char}
-                </span>
-              );
-            return (
-              <span
-                key={index}
-                className={normal}
-                style={{ color: extractTextInBrackets(normal) }}
-              >
-                {char}
-              </span>
-            );
+            ); // Incorrect space input shown as "_"
           }
         }
 
-        // 사용자가 아직 입력하지 않은 부분은 기본 색상으로 표시
         return (
-          <span
-            key={index}
-            className={normal}
-            style={{ color: extractTextInBrackets(normal) }}
-          >
-            {char}
+          <span key={index} style={{ color: textColor }}>
+            {input[index]}
           </span>
         );
       })}
