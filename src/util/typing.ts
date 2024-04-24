@@ -1,3 +1,7 @@
+/* eslint-disable prefer-const */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+
 // export function toKorChars(input) {
 //   if (!input) return [];
 //   const cCho = [
@@ -260,8 +264,8 @@ export function toKorChars(input) {
 }
 
 // 조합형 중성과 종성을 확인하고 처리하는 로직
-export const checkCombinedVowel = (inputVowel, targetVowel) => {
-  const vowelCombinations = {
+export const checkCombinedVowel = (inputVowel: string, targetVowel: string) => {
+  const vowelCombinations: { [k: string]: string[] } = {
     ㅘ: ["ㅗ", "ㅏ"],
     ㅙ: ["ㅗ", "ㅐ"],
     ㅚ: ["ㅗ", "ㅣ"],
@@ -278,8 +282,8 @@ export const checkCombinedVowel = (inputVowel, targetVowel) => {
   );
 };
 
-export const checkCombinedFinal = (inputFinal, targetFinal) => {
-  const finalCombinations = {
+export const checkCombinedFinal = (inputFinal: string, targetFinal: string) => {
+  const finalCombinations: { [k: string]: string[] } = {
     ㄳ: ["ㄱ", "ㅅ"],
     ㄵ: ["ㄴ", "ㅈ"],
     ㄶ: ["ㄴ", "ㅎ"],
@@ -301,7 +305,7 @@ export const checkCombinedFinal = (inputFinal, targetFinal) => {
 };
 
 export const ejectFinal = (targetFinal: string) => {
-  const finalCombinations = {
+  const finalCombinations: { [k: string]: string[] } = {
     ㄳ: ["ㄱ", "ㅅ"],
     ㄵ: ["ㄴ", "ㅈ"],
     ㄶ: ["ㄴ", "ㅎ"],
