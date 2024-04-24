@@ -32,10 +32,7 @@ const sentence = {
       author: "로즈",
       content: "당신은 나를 구원해주셨어요. 모든 방법으로 저를 구해주셨어요.",
     },
-    {
-      author: "스파르타쿠스",
-      content: "나는 스파르타쿠스다!",
-    },
+
     {
       author: "네오",
       content: "나는 더 이상 시스템의 일부가 아니다.",
