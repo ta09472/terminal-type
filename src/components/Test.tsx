@@ -109,6 +109,8 @@ export default function Accuracy({
     }
   };
 
+  console.log(color);
+
   return (
     <div>
       {target.split("").map((char, index) => {
@@ -139,7 +141,11 @@ export default function Accuracy({
         }
 
         return (
-          <span key={index} style={{ color: textColor }}>
+          <span
+            key={index}
+            style={{ color: textColor }}
+            className={color.normal}
+          >
             {input[index]}
           </span>
         );
