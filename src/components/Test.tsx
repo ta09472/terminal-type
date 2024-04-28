@@ -109,8 +109,6 @@ export default function Accuracy({
     }
   };
 
-  console.log(color);
-
   return (
     <div>
       {target.split("").map((char, index) => {
