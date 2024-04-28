@@ -16,6 +16,7 @@ import {
   FontSize,
   Language,
   Mode,
+  Status,
   TextAlign,
   Theme,
 } from "../type/custom";
@@ -26,6 +27,8 @@ import { twMerge } from "tailwind-merge";
 import Cropper from "../components/Cropper";
 import { PixelCrop } from "react-image-crop";
 import { createBackgroundImageStyle } from "../util/crop";
+import TypingStatus from "../components/TypingStatus";
+import StatusRadio from "../components/StatusRadio";
 
 const defaultSetting: DefaultSetting = {
   theme: "pro",
@@ -34,6 +37,7 @@ const defaultSetting: DefaultSetting = {
   mode: "light",
   fontSize: "medium",
   textAlign: "center",
+  status: "active",
   color: {
     accuracy: "text-[#000000]",
     normal: "text-[#969da6]",
@@ -53,6 +57,7 @@ export default function Home() {
   const [_theme, _setTheme] = useState<Mode>(setting.mode);
   const [fontSize, setFontSize] = useState<FontSize>(setting.fontSize);
   const [textAlign, setTextAlign] = useState<TextAlign>(setting.textAlign);
+  const [status, setStatus] = useState<Status>(setting.status);
   const [color, setColor] = useState<Color>(setting.color);
   const [background, setBackground] = useState<
     | {
@@ -84,6 +89,7 @@ export default function Home() {
       fontSize: fontSize,
       textAlign: textAlign,
       color: color,
+      status: status,
     });
     setIsModalOpen(false);
   };
@@ -101,6 +107,7 @@ export default function Home() {
     fontSize,
     textAlign,
     background,
+    status,
   };
 
   const renderTheme = (theme: Theme) => {
@@ -171,6 +178,7 @@ export default function Home() {
         <div className={twMerge(" font-bold text-2xl dark:text-neutral-50 ")}>
           /terminal-type/
         </div>
+
         <div>
           <Button
             type="text"
@@ -200,7 +208,17 @@ export default function Home() {
           <div className=" flex items-center gap-4"></div>
         </div>
       </div>
-      <Suspense fallback={<div>loading..</div>}>{renderTheme(theme)}</Suspense>
+      <Suspense fallback={<div>loading..</div>}>
+        {status === "active" ? (
+          <TypingStatus
+            input={input}
+            target={sentence[setting.language].at(index)?.content ?? ""}
+            isLocal={isLocal}
+            onClick={() => setStatus(() => "inactive")}
+          />
+        ) : null}
+        {renderTheme(theme)}
+      </Suspense>
       <Modal
         keyboard
         classNames={{
@@ -395,6 +413,19 @@ export default function Home() {
               />
             </div>
           </div> */}
+          <Divider />
+          <div className="flex w-full flex-col">
+            <span className=" font-semibold text-lg">
+              {isLocal ? "입력 상태" : "Input Status"}
+            </span>
+            <div className="flex flex-col items-center w-full justify-between">
+              <StatusRadio
+                isLocal={isLocal}
+                status={status}
+                setStatus={setStatus}
+              />
+            </div>
+          </div>
           <Divider />
           <div className="flex w-full flex-col">
             <span className=" font-semibold text-lg">

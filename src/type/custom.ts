@@ -3,6 +3,7 @@ export type Language = "korean" | "english";
 export type Mode = "dark" | "light";
 export type TextAlign = "left" | "center";
 export type FontSize = "small" | "medium" | "large" | "extraLarge";
+export type Status = "active" | "inactive";
 export type Color = {
   normal: string;
   accuracy: string;
@@ -16,5 +17,6 @@ export type DefaultSetting = {
   textAlign: TextAlign;
   fontSize: FontSize;
   color: Color;
+  status: Status;
   systemLanguage: Language;
 };
