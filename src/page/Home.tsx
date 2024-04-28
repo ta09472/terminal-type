@@ -28,7 +28,7 @@ import { PixelCrop } from "react-image-crop";
 import { createBackgroundImageStyle } from "../util/crop";
 
 const defaultSetting: DefaultSetting = {
-  theme: "minimal",
+  theme: "pro",
   systemLanguage: "korean",
   language: "korean",
   mode: "light",

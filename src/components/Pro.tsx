@@ -40,17 +40,20 @@ export default function Pro({
         input={input}
         color={{
           accuracy: twMerge(
-            setting.fontSize,
+            getFontSize(setting.fontSize),
             "dark:text-neutral-50",
             setting.color.accuracy
           ),
           normal: twMerge(
-            setting.fontSize,
+            getFontSize(setting.fontSize),
             // "text-neutral-400",
             setting.color.normal
           ),
 
-          inaccuracy: twMerge(setting.fontSize, setting.color.inaccuracy),
+          inaccuracy: twMerge(
+            getFontSize(setting.fontSize),
+            setting.color.inaccuracy
+          ),
         }}
       />
       <div className="bg-black rounded-lg min-w-[22rem] lg:min-w-[45rem] flex gap-2 items-center mb-12">

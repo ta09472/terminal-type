@@ -139,7 +139,11 @@ export default function Accuracy({
         }
 
         return (
-          <span key={index} style={{ color: textColor }}>
+          <span
+            key={index}
+            style={{ color: textColor }}
+            className={color.normal}
+          >
             {input[index]}
           </span>
         );
