@@ -5,6 +5,7 @@ interface Props {
   isLocal: boolean;
   onCancel: () => void;
 }
+
 export default function PatchNote({ open, onCancel, isLocal }: Props) {
   return (
     <Modal open={open} footer={null} centered onCancel={onCancel}>
@@ -13,6 +14,15 @@ export default function PatchNote({ open, onCancel, isLocal }: Props) {
           <div className=" overflow-auto px-9 flex-col gap-4">
             <div className="mb-4">
               <div className="pb-4 font-semibold flex justify-between items-center">
+                <div>0.5 패치내역</div>
+                <div className="text-base text-neutral-700">2024.4.28</div>
+              </div>
+              <div className="text-sm flex flex-col gap-4">
+                <div>- 타자속도 및 정확도 측정 기능이 추가되었습니다.</div>
+              </div>
+            </div>
+            <div className="mb-4">
+              <div className="pb-4 flex justify-between items-center">
                 <div>0.41 패치내역</div>
                 <div className="text-base text-neutral-700">2024.4.22</div>
               </div>
@@ -66,6 +76,18 @@ export default function PatchNote({ open, onCancel, isLocal }: Props) {
         <div className="text-lg flex-col text-neutral-800">
           <div className=" overflow-auto px-9 flex-col gap-4">
             <div className="pb-4 font-semibold flex justify-between items-center">
+              <div className="mb-4">
+                <div className="pb-4 font-semibold flex justify-between items-center">
+                  <div>0.5 Patch Notes</div>
+                  <div className="text-base text-neutral-700">2024.4.28</div>
+                </div>
+                <div className="text-sm flex flex-col gap-4">
+                  <div>
+                    - Typing speed and accuracy measurement feature has been
+                    added.
+                  </div>
+                </div>
+              </div>
               <div>Patch 0.41 Notes</div>
               <div className="text-base text-neutral-700">2024.4.22</div>
             </div>
