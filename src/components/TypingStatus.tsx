@@ -82,67 +82,68 @@ export default function TypingStatus({
     };
   }
 
-  return (
-    <Draggable>
-      <div className="hover:bg-neutral-100 hover:dark:bg-neutral-700 z-[1000] p-2  bg-transparent rounded-md fixed top-44 right-28 cursor-move">
-        <div className="flex justify-between items-center">
-          <div>
-            <Popover
-              title={
-                <div>
-                  {isLocal ? "이번에만 숨깁니다." : "Hide this time."}
-                  <div className="flex items-center">
-                    {isLocal
-                      ? "설정에서 변경사항을 저장할 수 있습니다."
-                      : "You can save the changes in Settings."}
-                  </div>
-                </div>
-              }
-            >
-              <Button
-                type="text"
-                onClick={onClick}
-                icon={
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4 dark:text-neutral-50"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18 18 6M6 6l12 12"
-                    />
-                  </svg>
-                }
-              />
-            </Popover>
-          </div>
-        </div>
-        <div className="pl-2 w-[10rem]">
-          <div
-            className="flex items-center"
-            // style={{
-            //   color: extractTextInBrackets(color.accuracy),
-            // }}
-          >
-            <div className="w-[4rem]  dark:text-neutral-50 flex flex-col">
-              <div>WPM</div>
-              <div>{typingStats.wpm}</div>
-            </div>
-            <div className="w-[4rem]  dark:text-neutral-50 flex flex-col">
-              <div>CPM</div>
-              <div>{typingStats.cpm}</div>
-            </div>
-            <div className="w-[4rem]  dark:text-neutral-50 flex flex-col">
-              <div>ACC</div> <div>{typingStats.acc}%</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Draggable>
-  );
+  return null;
+  // return (
+  //   <Draggable>
+  //     <div className="hover:bg-neutral-100 hover:dark:bg-neutral-700 z-[1000] p-2  bg-transparent rounded-md fixed top-44 right-28 cursor-move">
+  //       <div className="flex justify-between items-center">
+  //         <div>
+  //           <Popover
+  //             title={
+  //               <div>
+  //                 {isLocal ? "이번에만 숨깁니다." : "Hide this time."}
+  //                 <div className="flex items-center">
+  //                   {isLocal
+  //                     ? "설정에서 변경사항을 저장할 수 있습니다."
+  //                     : "You can save the changes in Settings."}
+  //                 </div>
+  //               </div>
+  //             }
+  //           >
+  //             <Button
+  //               type="text"
+  //               onClick={onClick}
+  //               icon={
+  //                 <svg
+  //                   xmlns="http://www.w3.org/2000/svg"
+  //                   fill="none"
+  //                   viewBox="0 0 24 24"
+  //                   strokeWidth={1.5}
+  //                   stroke="currentColor"
+  //                   className="w-4 h-4 dark:text-neutral-50"
+  //                 >
+  //                   <path
+  //                     strokeLinecap="round"
+  //                     strokeLinejoin="round"
+  //                     d="M6 18 18 6M6 6l12 12"
+  //                   />
+  //                 </svg>
+  //               }
+  //             />
+  //           </Popover>
+  //         </div>
+  //       </div>
+  //       <div className="pl-2 w-[10rem]">
+  //         <div
+  //           className="flex items-center"
+  //           // style={{
+  //           //   color: extractTextInBrackets(color.accuracy),
+  //           // }}
+  //         >
+  //           <div className="w-[4rem]  dark:text-neutral-50 flex flex-col">
+  //             <div>WPM</div>
+  //             <div>{typingStats.wpm}</div>
+  //           </div>
+  //           <div className="w-[4rem]  dark:text-neutral-50 flex flex-col">
+  //             <div>CPM</div>
+  //             <div>{typingStats.cpm}</div>
+  //           </div>
+  //           <div className="w-[4rem]  dark:text-neutral-50 flex flex-col">
+  //             <div>ACC</div> <div>{typingStats.acc}%</div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </Draggable>
+  // );
 }
