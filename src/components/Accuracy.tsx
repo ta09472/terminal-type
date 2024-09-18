@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { extractTextInBrackets } from "../util/color";
 
 interface Props {
@@ -19,8 +20,6 @@ export default function Accuracy({
     inaccuracy: "text-red-500",
   },
 }: Props) {
-  const { normal, accuracy, inaccuracy } = color;
-
   if (!target) return null;
 
   // 유니코드를 통해 초성, 중성, 종성을 분리하는 함수
@@ -124,7 +123,7 @@ export default function Accuracy({
 
   // 중성이 결합될 수 있는지 확인하는 함수 (모음 결합 과정)
   const canMedialCombine = (inputMedial: string, targetMedial: string) => {
-    const combinationRules = {
+    const combinationRules: { [key: string]: string[] } = {
       ㅗ: ["ㅘ", "ㅙ", "ㅚ"], // "도" -> "되" -> "된"
       ㅜ: ["ㅝ", "ㅞ", "ㅟ"],
       ㅡ: ["ㅢ"], // "으" -> "의"
@@ -138,7 +137,7 @@ export default function Accuracy({
     final: string,
     initial: string
   ) => {
-    const combinationRules = {
+    const combinationRules: { [key: string]: string[] } = {
       ㄱ: ["ㄱ", "ㄲ", "ㅋ", "ㅁ"],
       ㄲ: ["ㄱ", "ㄲ"],
       ㄳ: ["ㄱ", "ㅅ"],
@@ -173,7 +172,7 @@ export default function Accuracy({
 
   // 겹종성(복합 자음)이 완성되는 과정을 처리하는 함수
   const isPartialFinalMatch = (inputFinal: string, targetFinal: string) => {
-    const partialFinals = {
+    const partialFinals: { [key: string]: string } = {
       ㄶ: "ㄴ", // "많"을 입력할 때 "만"이 중간 입력으로 처리되어야 함
       ㄳ: "ㄱ",
       ㄵ: "ㄴ",
@@ -220,6 +219,7 @@ export default function Accuracy({
     if (
       inputDecomposed.initial === targetDecomposed.initial &&
       !inputDecomposed.final &&
+      // @ts-ignore
       canMedialCombine(inputDecomposed.medial, targetDecomposed.medial)
     ) {
       return color.accuracy; // 중성이 결합되는 과정도 올바르게 처리
@@ -229,6 +229,7 @@ export default function Accuracy({
     if (
       inputDecomposed.initial === targetDecomposed.initial &&
       inputDecomposed.medial === targetDecomposed.medial &&
+      // @ts-ignore
       isPartialFinalMatch(inputDecomposed.final, targetDecomposed.final)
     ) {
       return color.accuracy; // 겹종성이 완성되지 않은 상태도 올바르게 처리
