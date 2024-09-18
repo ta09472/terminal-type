@@ -1,9 +1,4 @@
 import { extractTextInBrackets } from "../util/color";
-import {
-  checkCombinedFinal,
-  checkCombinedVowel,
-  toKorChars,
-} from "../util/typing";
 
 interface Props {
   target: string | undefined;
@@ -28,150 +23,259 @@ export default function Accuracy({
 
   if (!target) return null;
 
-  const targetDecomposed = toKorChars(target).map((char) => ({ ...char }));
-  const inputDecomposed = toKorChars(input);
+  // 유니코드를 통해 초성, 중성, 종성을 분리하는 함수
+  const decomposeHangul = (syllable: string) => {
+    const initialConsonants = [
+      "ㄱ",
+      "ㄲ",
+      "ㄴ",
+      "ㄷ",
+      "ㄸ",
+      "ㄹ",
+      "ㅁ",
+      "ㅂ",
+      "ㅃ",
+      "ㅅ",
+      "ㅆ",
+      "ㅇ",
+      "ㅈ",
+      "ㅉ",
+      "ㅊ",
+      "ㅋ",
+      "ㅌ",
+      "ㅍ",
+      "ㅎ",
+    ];
+    const medialVowels = [
+      "ㅏ",
+      "ㅐ",
+      "ㅑ",
+      "ㅒ",
+      "ㅓ",
+      "ㅔ",
+      "ㅕ",
+      "ㅖ",
+      "ㅗ",
+      "ㅘ",
+      "ㅙ",
+      "ㅚ",
+      "ㅛ",
+      "ㅜ",
+      "ㅝ",
+      "ㅞ",
+      "ㅟ",
+      "ㅠ",
+      "ㅡ",
+      "ㅢ",
+      "ㅣ",
+    ];
+    const finalConsonants = [
+      "",
+      "ㄱ",
+      "ㄲ",
+      "ㄳ",
+      "ㄴ",
+      "ㄵ",
+      "ㄶ",
+      "ㄷ",
+      "ㄹ",
+      "ㄺ",
+      "ㄻ",
+      "ㄼ",
+      "ㄽ",
+      "ㄾ",
+      "ㄿ",
+      "ㅀ",
+      "ㅁ",
+      "ㅂ",
+      "ㅄ",
+      "ㅅ",
+      "ㅆ",
+      "ㅇ",
+      "ㅈ",
+      "ㅊ",
+      "ㅋ",
+      "ㅌ",
+      "ㅍ",
+      "ㅎ",
+    ];
+
+    if (syllable.length === 1 && initialConsonants.includes(syllable)) {
+      // 자음(초성)만 입력된 경우
+      return {
+        initial: syllable,
+        medial: undefined,
+        final: undefined,
+      };
+    }
+
+    const baseCode = syllable.charCodeAt(0) - 0xac00;
+
+    const initialIndex = Math.floor(baseCode / 588);
+    const medialIndex = Math.floor((baseCode % 588) / 28);
+    const finalIndex = baseCode % 28;
+
+    return {
+      initial: initialConsonants[initialIndex],
+      medial: medialVowels[medialIndex],
+      final: finalConsonants[finalIndex],
+    };
+  };
+
+  // 중성이 결합될 수 있는지 확인하는 함수 (모음 결합 과정)
+  const canMedialCombine = (inputMedial: string, targetMedial: string) => {
+    const combinationRules = {
+      ㅗ: ["ㅘ", "ㅙ", "ㅚ"], // "도" -> "되" -> "된"
+      ㅜ: ["ㅝ", "ㅞ", "ㅟ"],
+      ㅡ: ["ㅢ"], // "으" -> "의"
+    };
+
+    return combinationRules[inputMedial]?.includes(targetMedial);
+  };
+
+  // 종성-초성 결합이 가능한지 확인하는 함수
+  const canFinalConsonantCombineWithInitial = (
+    final: string,
+    initial: string
+  ) => {
+    const combinationRules = {
+      ㄱ: ["ㄱ", "ㄲ", "ㅋ", "ㅁ"],
+      ㄲ: ["ㄱ", "ㄲ"],
+      ㄳ: ["ㄱ", "ㅅ"],
+      ㄴ: ["ㄴ", "ㄹ", "ㄵ", "ㄶ"],
+      ㄵ: ["ㄴ", "ㅈ"],
+      ㄶ: ["ㄴ", "ㅎ"],
+      ㄷ: ["ㄷ", "ㅌ"],
+      ㄹ: ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅌ", "ㅍ", "ㅎ"],
+      ㄺ: ["ㄹ", "ㄱ"],
+      ㄻ: ["ㄹ", "ㅁ"],
+      ㄼ: ["ㄹ", "ㅂ"],
+      ㄽ: ["ㄹ", "ㅅ"],
+      ㄾ: ["ㄹ", "ㅌ"],
+      ㄿ: ["ㄹ", "ㅍ"],
+      ㅀ: ["ㄹ", "ㅎ"],
+      ㅁ: ["ㅁ", "ㅂ"],
+      ㅂ: ["ㅂ", "ㅃ"],
+      ㅄ: ["ㅂ", "ㅅ"],
+      ㅅ: ["ㅅ", "ㅆ"],
+      ㅆ: ["ㅅ", "ㅆ"],
+      ㅇ: ["ㅇ"],
+      ㅈ: ["ㅈ", "ㅉ"],
+      ㅊ: ["ㅊ"],
+      ㅋ: ["ㅋ"],
+      ㅌ: ["ㅌ"],
+      ㅍ: ["ㅍ"],
+      ㅎ: ["ㅎ"],
+    };
+
+    return combinationRules[final]?.includes(initial);
+  };
+
+  // 겹종성(복합 자음)이 완성되는 과정을 처리하는 함수
+  const isPartialFinalMatch = (inputFinal: string, targetFinal: string) => {
+    const partialFinals = {
+      ㄶ: "ㄴ", // "많"을 입력할 때 "만"이 중간 입력으로 처리되어야 함
+      ㄳ: "ㄱ",
+      ㄵ: "ㄴ",
+      ㄼ: "ㄹ",
+      ㄻ: "ㄹ",
+      ㄺ: "ㄹ",
+      ㅀ: "ㄹ",
+      ㅄ: "ㅂ",
+    };
+    return partialFinals[targetFinal] === inputFinal;
+  };
 
   const calculateColor = (index: number) => {
-    if (index >= inputDecomposed.length) {
-      return color.normal; // 아직 입력되지 않은 인덱스
+    if (index >= input.length) {
+      return color.normal; // 아직 입력되지 않은 인덱스는 기본 색상
     }
 
-    const inputChar = inputDecomposed[index];
-    const targetChar = targetDecomposed[index];
-    const nextTargetChar =
-      index + 1 < targetDecomposed.length ? targetDecomposed[index + 1] : null;
+    const inputChar = input[index]; // 사용자가 입력한 문자
+    const targetChar = target[index]; // 타겟의 해당 위치 문자
 
-    // 모든 조건을 종합하여 정확도를 계산
-    // const isCurrentInputMatching =
-    //   inputChar.initial === targetChar.initial &&
-    //   checkCombinedVowel(inputChar.vowel, targetChar.vowel) &&
-    //   checkCombinedFinal(inputChar.final, targetChar.final);
+    // 초성, 중성, 종성 분리
+    const inputDecomposed = decomposeHangul(inputChar);
+    const targetDecomposed = decomposeHangul(targetChar);
 
-    // // 현재 문자의 종성과 다음 문자의 초성 조합을 고려하여 정확도 계산
-    // const isNextInitialMatching =
-    //   nextTargetChar &&
-    //   inputChar.final &&
-    //   (inputChar.final === nextTargetChar.initial ||
-    //     checkCombinedFinal(inputChar.final, nextTargetChar.initial));
+    // 초성만 입력되었을 때도 올바른 입력으로 처리
+    if (
+      inputDecomposed.initial === targetDecomposed.initial &&
+      !inputDecomposed.medial &&
+      !inputDecomposed.final
+    ) {
+      return color.accuracy; // 초성만 입력되었을 경우에도 일치
+    }
 
-    // 조합 가능한 종성과 초성인 경우 정확도 확인
+    // 초성, 중성이 일치하고 종성이 입력되지 않은 상태일 경우
+    if (
+      inputDecomposed.initial === targetDecomposed.initial &&
+      inputDecomposed.medial === targetDecomposed.medial &&
+      !inputDecomposed.final // 종성이 아직 입력되지 않은 상태일 때
+    ) {
+      return color.accuracy; // 중간 입력으로 올바르게 처리
+    }
 
-    // const combinedFinalMatching =
-    //   nextTargetChar &&
-    //   checkCombinedFinal(inputChar.final, nextTargetChar.initial);
+    // 모음(중성)이 결합되는 과정인지 확인 (ex. "으" -> "의"로 가는 과정)
+    if (
+      inputDecomposed.initial === targetDecomposed.initial &&
+      !inputDecomposed.final &&
+      canMedialCombine(inputDecomposed.medial, targetDecomposed.medial)
+    ) {
+      return color.accuracy; // 중성이 결합되는 과정도 올바르게 처리
+    }
 
-    // targetChar의 종성이 존재하지 않고 현재 입력중인 input의 종성이 nextTargetChar의 초성과 같으면 accuracy이지만 현재 입력중이 아닌 그러니까 index-1인 inputChar과 targetChar이 일치하지 않으면 inaccuracy이다.
-    // targetChar의 종성이 존재하고 현재 입력중인 input의 종성이 nextTargetChar의 초성을 포함하고 있으면 accuracy이고 아니라면 inaccuracy이지만 현재 입력중이 아닌 그러니까 index-1인 inputChar과 targetChar이 일치하지 않으면 inaccuracy이다.
+    // 겹종성(복합 자음)이 완성되는 과정인지 확인 (ex. "만" -> "많"으로 가는 과정)
+    if (
+      inputDecomposed.initial === targetDecomposed.initial &&
+      inputDecomposed.medial === targetDecomposed.medial &&
+      isPartialFinalMatch(inputDecomposed.final, targetDecomposed.final)
+    ) {
+      return color.accuracy; // 겹종성이 완성되지 않은 상태도 올바르게 처리
+    }
 
-    if (index !== inputDecomposed.length - 1) {
-      const matches =
-        inputChar.initial === targetChar.initial &&
-        checkCombinedVowel(inputChar.vowel, targetChar.vowel) &&
-        checkCombinedFinal(inputChar.final, targetChar.final);
+    // 종성이 아직 완성되지 않은 겹종성 상태를 처리
+    if (
+      inputDecomposed.initial === targetDecomposed.initial &&
+      inputDecomposed.medial === targetDecomposed.medial &&
+      inputDecomposed.final &&
+      !targetDecomposed.final
+    ) {
+      return color.accuracy; // 겹종성의 중간 단계도 올바른 입력으로 처리
+    }
 
-      return matches ? color.accuracy : color.inaccuracy;
-    } else {
+    // 다음 문자의 초성을 고려하여 종성이 결합될 수 있는지 확인
+    if (index + 1 < target.length) {
+      const nextTargetDecomposed = decomposeHangul(target[index + 1]);
+
       if (
-        inputChar.initial === targetChar.initial &&
-        inputChar.vowel === targetChar.vowel
+        inputDecomposed.final &&
+        canFinalConsonantCombineWithInitial(
+          inputDecomposed.final,
+          nextTargetDecomposed.initial
+        )
       ) {
-        // 대상종성이 없고 입력종성이 없을떄
-        if (targetChar.final === undefined && inputChar.final === undefined) {
-          if (
-            (nextTargetChar && nextTargetChar.initial === inputChar.final) ||
-            inputChar.final === undefined
-          ) {
-            // if (!inputChar.final && targetChar.final !== inputChar.final) {
-            //   return color.inaccuracy;
-            // }
-            return color.accuracy;
-          }
-
-          return color.inaccuracy;
-        } else {
-          // 대상 종성이 있고 입력종성이 있을때
-
-          return color.accuracy;
-        }
+        return color.accuracy; // 종성이 다음 초성과 결합 가능한 경우
       }
-
-      // 입력이 완료된 인덱스에 대해서는 기존 로직을 적용
-      const matches =
-        inputChar.initial === targetChar.initial &&
-        (checkCombinedVowel(inputChar.vowel, targetChar.vowel) ||
-          inputChar.vowel === undefined) &&
-        (checkCombinedFinal(inputChar.final, targetChar.final) ||
-          inputChar.final === undefined);
-
-      // if (isNextInitialMatching) {
-      //   return isCurrentInputMatching ? color.accuracy : color.inaccuracy;
-      // }
-
-      return matches ? color.accuracy : color.inaccuracy;
     }
+
+    // 초성, 중성, 종성이 모두 일치하는지 확인
+    const isMatching =
+      inputDecomposed.initial === targetDecomposed.initial &&
+      inputDecomposed.medial === targetDecomposed.medial &&
+      inputDecomposed.final === targetDecomposed.final;
+
+    return isMatching ? color.accuracy : color.inaccuracy;
   };
 
   return (
     <div>
       {target.split("").map((char, index) => {
-        if (index < input.length) {
-          // 사용자가 입력한 문자열의 인덱스가 현재 인덱스보다 큰 경우
-          if (index < input.length - 1) {
-            // 입력 중인 인덱스보다 이전이며 정답과 다른 문자열은 빨간색으로 표현
-            const className = char === input[index] ? accuracy : inaccuracy;
-            const textColor = extractTextInBrackets(calculateColor(index));
+        const className = calculateColor(index);
+        const textColor = extractTextInBrackets(className);
 
-            if (char === " " && char !== input[index])
-              return (
-                <span
-                  key={index}
-                  className={inaccuracy}
-                  style={{ color: textColor }}
-                >
-                  _
-                </span>
-              );
-            return (
-              <span
-                key={index}
-                className={className}
-                style={{ color: textColor }}
-              >
-                {char}
-              </span>
-            );
-          } else {
-            // 사용자가 입력 중인 인덱스의 문자열은 기본색상으로 표현
-
-            if (char === input[index])
-              return (
-                <span
-                  key={index}
-                  className={accuracy}
-                  style={{ color: extractTextInBrackets(accuracy) }}
-                >
-                  {char}
-                </span>
-              );
-            return (
-              <span
-                key={index}
-                className={normal}
-                style={{ color: extractTextInBrackets(normal) }}
-              >
-                {char}
-              </span>
-            );
-          }
-        }
-
-        // 사용자가 아직 입력하지 않은 부분은 기본 색상으로 표시
         return (
-          <span
-            key={index}
-            className={normal}
-            style={{ color: extractTextInBrackets(normal) }}
-          >
+          <span key={index} className={className} style={{ color: textColor }}>
             {char}
           </span>
         );
