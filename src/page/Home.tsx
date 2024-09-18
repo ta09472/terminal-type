@@ -414,7 +414,7 @@ export default function Home() {
             </div>
           </div> */}
           <Divider />
-          <div className="flex w-full flex-col">
+          {/* <div className="flex w-full flex-col">
             <span className=" font-semibold text-lg">
               {isLocal ? "입력 상태" : "Input Status"}
             </span>
@@ -426,7 +426,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <Divider />
+          <Divider /> */}
           <div className="flex w-full flex-col">
             <span className=" font-semibold text-lg">
               {isLocal ? "시력 보호" : "Dark Mode"}
